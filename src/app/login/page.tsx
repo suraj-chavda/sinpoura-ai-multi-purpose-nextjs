@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { ArrowRight } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { Header } from "@/components/layout/Header";
+import { AuthWorkspacePanels } from "@/components/auth/AuthWorkspacePanels";
+import { GuestWorkspaceShell } from "@/components/layout/GuestWorkspaceShell";
 import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
@@ -33,58 +34,78 @@ export default function LoginPage() {
   }
 
   const fieldClass =
-    "rounded-xl border border-input bg-muted/40 px-3 py-2 text-sm text-foreground outline-none transition-[box-shadow,border-color] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/35";
+    "rounded-xl border border-input/70 bg-background/65 px-3 py-2.5 text-sm text-foreground outline-none backdrop-blur-sm transition-[box-shadow,border-color,ring-color] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/35 dark:bg-background/35";
 
   return (
-    <div className={cn("flex min-h-dvh flex-col bg-background app-shell-gradient")}>
-      <Header />
-      <div className="flex flex-1 items-center justify-center p-4 md:p-8">
-        <div className="w-full max-w-md rounded-2xl border border-border bg-card/90 p-8 shadow-lg shadow-black/5 backdrop-blur-md dark:bg-card/80 dark:shadow-black/40">
-          <h1 className="text-xl font-medium tracking-tight text-card-foreground">Sign in</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            No account?{" "}
-            <Link href="/register" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
-              Register
-            </Link>
-          </p>
-          <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-5">
-            {error ? (
-              <p className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                {error}
-              </p>
-            ) : null}
-            <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
-              Email
-              <input
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={fieldClass}
-              />
-            </label>
-            <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
-              Password
-              <input
-                type="password"
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={fieldClass}
-              />
-            </label>
-            <button
-              type="submit"
-              disabled={pending}
-              className="mt-1 rounded-xl bg-primary py-2.5 text-sm font-medium text-primary-foreground shadow-sm transition-opacity hover:opacity-90 disabled:pointer-events-none disabled:opacity-45"
+    <GuestWorkspaceShell mainClassName="p-0" mainScroll={false} showBottomGlow={false}>
+      <AuthWorkspacePanels
+        variant="login"
+        alternateAuth={{
+          href: "/register",
+          label: "Create one",
+          prefix: "New here?",
+        }}
+      >
+        <form onSubmit={onSubmit} className="flex flex-col gap-5">
+          {error ? (
+            <div
+              className="rounded-xl border border-destructive/45 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+              role="alert"
+              aria-live="assertive"
             >
-              {pending ? "Signing in…" : "Sign in"}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+              {error}
+            </div>
+          ) : null}
+
+          <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
+            Email address
+            <input
+              type="email"
+              autoComplete="email"
+              required
+              inputMode="email"
+              placeholder="you@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={fieldClass}
+            />
+          </label>
+
+          <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
+            Password
+            <input
+              type="password"
+              autoComplete="current-password"
+              required
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={fieldClass}
+            />
+          </label>
+
+          <button
+            type="submit"
+            disabled={pending}
+            className={cn(
+              "mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground shadow-md shadow-primary/25 ring-1 ring-black/5 transition-opacity hover:opacity-95 disabled:pointer-events-none disabled:opacity-45 dark:ring-white/10",
+            )}
+          >
+            {pending ? (
+              "Signing in…"
+            ) : (
+              <>
+                Continue to chat
+                <ArrowRight className="size-4 opacity-90" aria-hidden />
+              </>
+            )}
+          </button>
+
+          <p className="text-center text-xs leading-relaxed text-muted-foreground">
+            Credentials are verified on the server; a successful sign-in sets an encrypted session cookie (Auth.js).
+          </p>
+        </form>
+      </AuthWorkspacePanels>
+    </GuestWorkspaceShell>
   );
 }

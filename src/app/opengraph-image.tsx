@@ -76,7 +76,7 @@ export default function OpenGraphImage() {
               {APP_NAME}
             </div>
             <div style={{ fontSize: 28, color: "rgba(250,250,250,0.78)", lineHeight: 1.35 }}>
-              Multi-purpose AI chat · Next.js · MongoDB · Zustand · xoin-js
+              Multi-purpose AI chat · Next.js · MongoDB · Zustand · xoin-js -powerfull multi-LLM toolkit
             </div>
           </div>
         </div>

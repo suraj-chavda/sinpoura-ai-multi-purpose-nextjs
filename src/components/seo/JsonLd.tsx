@@ -2,7 +2,7 @@ import { APP_NAME } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/site";
 
 const DESCRIPTION =
-  "Multi-purpose AI chat built with Next.js, MongoDB, Zustand, Auth.js, and xoin-js for multi-provider LLM backends.";
+  "Multi-purpose AI chat built with Next.js, MongoDB, Zustand, Auth.js, and xoin-js—a structured multi-LLM toolkit across OpenAI, Anthropic, and other providers.";
 
 export function JsonLd() {
   const url = getSiteUrl();

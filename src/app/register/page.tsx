@@ -1,11 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { ArrowRight } from "lucide-react";
 import { useState, type FormEvent } from "react";
+import { AuthWorkspacePanels } from "@/components/auth/AuthWorkspacePanels";
+import { GuestWorkspaceShell } from "@/components/layout/GuestWorkspaceShell";
 import { API } from "@/lib/constants";
-import { Header } from "@/components/layout/Header";
 import { cn } from "@/lib/utils";
 
 export default function RegisterPage() {
@@ -42,63 +43,95 @@ export default function RegisterPage() {
   }
 
   const fieldClass =
-    "rounded-xl border border-input bg-muted/40 px-3 py-2 text-sm text-foreground outline-none transition-[box-shadow,border-color] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/35";
+    "rounded-xl border border-input/70 bg-background/65 px-3 py-2.5 text-sm text-foreground outline-none backdrop-blur-sm transition-[box-shadow,border-color,ring-color] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/35 dark:bg-background/35";
 
   return (
-    <div className={cn("flex min-h-dvh flex-col bg-background app-shell-gradient")}>
-      <Header />
-      <div className="flex flex-1 items-center justify-center p-4 md:p-8">
-        <div className="w-full max-w-md rounded-2xl border border-border bg-card/90 p-8 shadow-lg shadow-black/5 backdrop-blur-md dark:bg-card/80 dark:shadow-black/40">
-          <h1 className="text-xl font-medium tracking-tight text-card-foreground">Create account</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Already registered?{" "}
-            <Link href="/login" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
-              Sign in
-            </Link>
-          </p>
-          <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-5">
-            {error ? (
-              <p className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                {error}
-              </p>
-            ) : null}
-            <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
-              Name (optional)
-              <input type="text" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} className={fieldClass} />
-            </label>
-            <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
-              Email
-              <input
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={fieldClass}
-              />
-            </label>
-            <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
-              Password (8+ characters)
-              <input
-                type="password"
-                autoComplete="new-password"
-                required
-                minLength={8}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={fieldClass}
-              />
-            </label>
-            <button
-              type="submit"
-              disabled={pending}
-              className="mt-1 rounded-xl bg-primary py-2.5 text-sm font-medium text-primary-foreground shadow-sm transition-opacity hover:opacity-90 disabled:pointer-events-none disabled:opacity-45"
+    <GuestWorkspaceShell mainClassName="p-0" mainScroll={false} showBottomGlow={false}>
+      <AuthWorkspacePanels
+        variant="register"
+        alternateAuth={{
+          href: "/login",
+          label: "Sign in instead",
+          prefix: "Already have an account?",
+        }}
+      >
+        <form onSubmit={onSubmit} className="flex flex-col gap-5">
+          {error ? (
+            <div
+              className="rounded-xl border border-destructive/45 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+              role="alert"
+              aria-live="assertive"
             >
-              {pending ? "Creating…" : "Register"}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+              {error}
+            </div>
+          ) : null}
+
+          <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
+            Display name{" "}
+            <span className="text-xs font-normal text-muted-foreground">(optional — shows in chat)</span>
+            <input
+              type="text"
+              autoComplete="name"
+              placeholder="Alex"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className={fieldClass}
+            />
+          </label>
+
+          <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
+            Email address
+            <input
+              type="email"
+              autoComplete="email"
+              required
+              inputMode="email"
+              placeholder="you@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={fieldClass}
+            />
+          </label>
+
+          <label className="flex flex-col gap-2 text-sm font-medium text-foreground">
+            Password
+            <input
+              type="password"
+              autoComplete="new-password"
+              required
+              minLength={8}
+              placeholder="At least 8 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={fieldClass}
+            />
+            <span className="text-xs font-normal leading-relaxed text-muted-foreground">
+              Use a unique password; credentials are hashed before storage.
+            </span>
+          </label>
+
+          <button
+            type="submit"
+            disabled={pending}
+            className={cn(
+              "mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground shadow-md shadow-primary/25 ring-1 ring-black/5 transition-opacity hover:opacity-95 disabled:pointer-events-none disabled:opacity-45 dark:ring-white/10",
+            )}
+          >
+            {pending ? (
+              "Creating your workspace…"
+            ) : (
+              <>
+                Create account & enter chat
+                <ArrowRight className="size-4 opacity-90" aria-hidden />
+              </>
+            )}
+          </button>
+
+          <p className="text-center text-xs leading-relaxed text-muted-foreground">
+            After registration we sign you in automatically and redirect to chat. Passwords are hashed before storage.
+          </p>
+        </form>
+      </AuthWorkspacePanels>
+    </GuestWorkspaceShell>
   );
 }

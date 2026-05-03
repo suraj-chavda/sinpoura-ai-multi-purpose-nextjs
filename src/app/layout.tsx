@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 const DESCRIPTION =
-  "Open-source multi-purpose AI chat: Next.js App Router, MongoDB, Auth.js, Zustand, and xoin-js (multi-provider LLM client). Ships with a public demo deployment for testers.";
+  "Open-source multi-purpose AI chat: Next.js App Router, MongoDB, Auth.js, Zustand, and xoin-js—a structured multi-LLM toolkit for OpenAI, Anthropic, and more. Ships with a public demo deployment for testers.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),

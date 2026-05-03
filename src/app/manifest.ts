@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: APP_NAME,
     short_name: APP_NAME,
     description:
-      "Open-source multi-purpose AI chat: Next.js App Router, MongoDB persistence, Zustand UI state, Auth.js, and xoin-js for LLM calls.",
+      "Open-source multi-purpose AI chat: Next.js App Router, MongoDB persistence, Zustand UI state, Auth.js, and xoin-js—a structured multi-LLM toolkit for serious integrations.",
     start_url: "/",
     display: "standalone",
     background_color: "#fafafa",

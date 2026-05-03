@@ -7,7 +7,7 @@
 <p align="center">
   Open-source, multi-purpose AI chat built with <a href="https://nextjs.org/">Next.js</a>,
   <a href="https://www.mongodb.com/">MongoDB</a>, and
-  <a href="https://github.com/kanha95/xoin-js">xoin-js</a> — a compact LLM client that speaks OpenAI and Anthropic from one API shape.
+  <a href="https://github.com/kanha95/xoin-js">xoin-js</a> — a powerful, structured multi-LLM toolkit: one coherent API surface across OpenAI, Anthropic, and other providers.
 </p>
 
 <p align="center">
@@ -53,7 +53,7 @@
 
 ## Live demo (testing)
 
-**Demo URL:** [https://suraj-chavda-sinpoura-ai-multi-purpose-nextjs-a8b3r1cw7.vercel.app/](https://suraj-chavda-sinpoura-ai-multi-purpose-nextjs-a8b3r1cw7.vercel.app/)
+**Demo URL:** [https://suraj-chavda-sinpoura-ai-multi-purp.vercel.app/](https://suraj-chavda-sinpoura-ai-multi-purp.vercel.app/)
 
 The app also references this hostname as `DEMO_APP_URL` in `src/lib/constants.ts` — update **both** places if the deployment URL changes.
 
@@ -68,7 +68,7 @@ Use this deployment to **try registration, chat, and BYOK** without cloning the 
 
 ### What is xoin?
 
-**xoin** is the small LLM client abstraction implemented by **[xoin-js](https://github.com/kanha95/xoin-js)** (`@xoin/xoin-js` on npm). Instead of wiring separate SDK shapes per vendor, you call one **`generate`**-style API while **xoin-js** routes to **OpenAI**, **Anthropic**, or other providers. Sinpoura constructs a fresh xoin client per chat request on the server — see [Why xoin-js sits at the center](#why-xoin-js-sits-at-the-center).
+**xoin** is the structured multi-provider LLM layer implemented by **[xoin-js](https://github.com/kanha95/xoin-js)** (`@xoin/xoin-js` on npm): one expressive **`generate`**-style workflow while **xoin-js** orchestrates **OpenAI**, **Anthropic**, and other backends behind the same shape—without trapping you in vendor-specific SDK sprawl. Sinpoura builds a fresh xoin instance per chat request on the server so each turn stays isolated and configurable — see [Why xoin-js sits at the center](#why-xoin-js-sits-at-the-center).
 
 ---
 
@@ -132,15 +132,15 @@ The UI is intentionally finished enough to demo — sidebar, transcripts, quick 
 
 ## Why xoin-js sits at the center
 
-Sinpoura uses [xoin-js](https://github.com/kanha95/xoin-js) (`@xoin/xoin-js` on [npm](https://www.npmjs.com/package/@xoin/xoin-js)) to talk to language models. In this repo, wiring lives in `src/server/ai/xoin.ts`: we build a fresh xoin instance per request with either OpenAI or Anthropic providers and models driven by environment defaults.
+Sinpoura uses [xoin-js](https://github.com/kanha95/xoin-js) (`@xoin/xoin-js` on [npm](https://www.npmjs.com/package/@xoin/xoin-js)) as its LLM runtime: a structured, multi-provider toolkit—not a single-vendor shim. In this repo, integration lives in `src/server/ai/xoin.ts`: each request gets a dedicated xoin instance with OpenAI or Anthropic providers and models driven by environment defaults.
 
 That matters for three practical reasons:
 
-1. **One mental model** — you’re not maintaining two completely different SDK shapes for two vendors.
-2. **Easy to extend** — xoin-js is built around pluggable providers; adding another backend later mostly touches server-side factory code.
-3. **Honest boundaries** — keys either come from env (host-owned) or from the user’s browser (BYOK), and xoin runs where those keys are resolved, not leaked into random client bundles.
+1. **One structured surface** — you keep a single orchestration model across vendors instead of duplicating SDK-specific pipelines per provider.
+2. **Built to extend** — xoin-js is provider-pluggable; adding backends stays concentrated in server-side factory code rather than spreading across routes.
+3. **Honest boundaries** — keys either come from env (host-owned) or from the user’s browser (BYOK), and xoin runs where those keys are resolved—never leaked into arbitrary client bundles.
 
-If you’re explaining the architecture, call out **xoin-js** explicitly: it keeps vendor-specific SDK details behind one server-side abstraction instead of scattering provider logic across routes.
+When you describe this architecture, treat **xoin-js** as the deliberate LLM layer: multi-model, structured, and explicit—not an afterthought wrapper around one API.
 
 ---
 
@@ -355,7 +355,7 @@ The **testing demo** linked [above](#live-demo-testing) is one such deployment; 
 
 ## Acknowledgments
 
-- **LLM layer:** [xoin-js](https://github.com/kanha95/xoin-js) — [`@xoin/xoin-js` on npm](https://www.npmjs.com/package/@xoin/xoin-js). Sinpoura’s server-side generation is intentionally thin glue around xoin’s providers.
+- **LLM layer:** [xoin-js](https://github.com/kanha95/xoin-js) — [`@xoin/xoin-js` on npm](https://www.npmjs.com/package/@xoin/xoin-js). Sinpoura’s server integrates generation through xoin-js’s structured multi-provider toolkit (see `src/server/ai/xoin.ts`).
 - **Auth:** [Auth.js](https://authjs.dev/)
 - **Framework:** [Next.js](https://nextjs.org/)
 
