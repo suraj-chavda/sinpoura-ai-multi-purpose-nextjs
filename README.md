@@ -238,6 +238,7 @@ openssl rand -base64 32
 
 - Middleware must not import Mongoose or bcrypt — Node-only auth stays in `auth.ts`; `auth.config.ts` stays edge-safe.
 - Turbopack monorepo quirks: `next.config.js` sets `turbopack.root` to this folder so builds resolve from the repo root.
+- **`querySrv EBADNAME _mongodb._tcp.#…` on Vercel**: Almost always a broken **`MONGODB_URI`** — commonly an unencoded **`#`** in the DB password (the URI is truncated at `#`). Fix: paste the URI from MongoDB Atlas, or encode `#` → `%23`, `@` → `%40`, etc., then redeploy.
 
 ---
 
@@ -249,7 +250,7 @@ openssl rand -base64 32
 | `AUTH_URL` | Deploy | Canonical app URL (e.g. `http://localhost:3000`) |
 | `SITE_URL` | No | SEO canonical URL; falls back to `AUTH_URL` |
 | `NEXT_PUBLIC_SITE_URL` | No | Optional client-visible absolute URL |
-| `MONGODB_URI` | Yes | Mongo connection string |
+| `MONGODB_URI` | Yes | Mongo connection string. Prefer Atlas “Connect → Drivers” paste (**credentials are pre-encoded**). If you assemble it by hand, percent-encode `#`, `@`, `/`, `:`, etc., or DNS fails with `querySrv EBADNAME`. |
 | `OPENAI_API_KEY` | No | Server-side OpenAI key for xoin-js |
 | `ANTHROPIC_API_KEY` | No | Server-side Anthropic key for xoin-js |
 | `OPENAI_MODEL` | No | Defaults to `gpt-4.1-mini` in server factory |
