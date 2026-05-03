@@ -32,6 +32,7 @@ export function GuestWorkspaceShell({
       className={cn(
         "app-shell-gradient flex min-h-0 flex-col overflow-hidden bg-background",
         "h-dvh max-h-dvh w-full max-w-[100vw]",
+        "pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]",
         mainScroll ? "md:h-auto md:max-h-none md:min-h-dvh md:p-3" : "md:h-dvh md:max-h-dvh md:min-h-0 md:p-3",
       )}
     >
@@ -47,6 +48,7 @@ export function GuestWorkspaceShell({
           className={cn(
             "relative z-[1] flex min-w-0 shrink-0 items-stretch overflow-hidden border-b border-border/90 backdrop-blur-md",
             "bg-gradient-to-br from-sidebar-primary/[0.14] via-background/92 to-sidebar-accent/35 dark:from-sidebar-primary/25 dark:via-background/88 dark:to-sidebar-accent/25",
+            "pt-[env(safe-area-inset-top,0px)]",
           )}
         >
           <div

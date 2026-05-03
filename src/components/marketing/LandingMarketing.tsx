@@ -14,6 +14,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
+import { NavBreadcrumb } from "@/components/layout/NavBreadcrumb";
 import { APP_NAME, DEMO_APP_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -53,9 +54,21 @@ function FeatureCard({
 
 export function LandingMarketing() {
   return (
-    <div className="relative flex min-h-full w-full flex-col">
+    <div className="relative flex min-h-full w-full flex-col pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]">
+      {/* Wayfinding — mirrors chat breadcrumb rhythm; especially helpful on small screens below the top bar. */}
+      <div className="border-b border-border/60 bg-background/90 px-4 py-2.5 backdrop-blur-md supports-[backdrop-filter]:bg-background/75 sm:px-6 md:px-8">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+          <NavBreadcrumb
+            items={[
+              { label: APP_NAME },
+              { label: "Product overview" },
+            ]}
+          />
+        </div>
+      </div>
+
       {/* Hero */}
-      <section className="relative px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-14 md:px-8 md:pb-24 md:pt-16">
+      <section className="relative px-4 pb-16 pt-7 sm:px-6 sm:pb-20 sm:pt-12 md:px-8 md:pb-24 md:pt-16">
         <div
           aria-hidden
           className={cn(
@@ -107,7 +120,7 @@ export function LandingMarketing() {
             <Link
               href="/register"
               className={cn(
-                "inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-md shadow-primary/25 ring-1 ring-black/5 transition-opacity hover:opacity-95 dark:ring-white/10",
+                "touch-manipulation inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-md shadow-primary/25 ring-1 ring-black/5 transition-opacity hover:opacity-95 active:opacity-90 dark:ring-white/10",
               )}
             >
               Create free account
@@ -116,9 +129,9 @@ export function LandingMarketing() {
             <Link
               href="/login"
               className={cn(
-                "chat-starter-tile motion-safe:transition-[transform,box-shadow,border-color,ring-color,background-color] motion-safe:duration-200",
-                "inline-flex items-center justify-center rounded-xl px-6 py-3 text-sm font-medium text-foreground",
-                "hover:border-ring/40 hover:bg-accent/35 hover:shadow-md hover:shadow-black/[0.05] hover:ring-ring/25 motion-safe:hover:-translate-y-px",
+                "chat-starter-tile touch-manipulation motion-safe:transition-[transform,box-shadow,border-color,ring-color,background-color] motion-safe:duration-200",
+                "inline-flex min-h-[44px] items-center justify-center rounded-xl px-6 py-3 text-sm font-medium text-foreground",
+                "hover:border-ring/40 hover:bg-accent/35 hover:shadow-md hover:shadow-black/[0.05] hover:ring-ring/25 motion-safe:hover:-translate-y-px active:opacity-90",
                 "dark:hover:bg-accent/20 dark:hover:ring-white/[0.08]",
               )}
             >
@@ -270,7 +283,7 @@ export function LandingMarketing() {
       </section>
 
       {/* Closing CTA */}
-      <section className="relative px-4 pb-14 pt-2 sm:px-6 md:px-8 md:pb-16">
+      <section className="relative px-4 pb-[max(3.5rem,env(safe-area-inset-bottom,1rem))] pt-2 sm:px-6 md:px-8 md:pb-[max(4rem,env(safe-area-inset-bottom,1rem))]">
         <div className="relative mx-auto max-w-2xl">
           <div className="chat-composer-surface px-6 py-10 text-center sm:px-10 sm:py-12">
             <h2 className="font-heading text-xl font-medium tracking-tight text-foreground sm:text-2xl">
@@ -283,7 +296,7 @@ export function LandingMarketing() {
               <Link
                 href="/register"
                 className={cn(
-                  "inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-md shadow-primary/25 ring-1 ring-black/5 transition-opacity hover:opacity-95 dark:ring-white/10",
+                  "touch-manipulation inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-md shadow-primary/25 ring-1 ring-black/5 transition-opacity hover:opacity-95 active:opacity-90 dark:ring-white/10",
                 )}
               >
                 Get started free
@@ -292,8 +305,8 @@ export function LandingMarketing() {
               <a
                 href={DEMO_APP_URL}
                 className={cn(
-                  "inline-flex items-center justify-center rounded-xl border border-border/90 bg-background/50 px-6 py-3 text-sm font-medium text-foreground backdrop-blur-sm transition-colors",
-                  "hover:bg-accent/40 hover:text-accent-foreground dark:border-white/10 dark:hover:bg-white/[0.06]",
+                  "touch-manipulation inline-flex min-h-[44px] items-center justify-center rounded-xl border border-border/90 bg-background/50 px-6 py-3 text-sm font-medium text-foreground backdrop-blur-sm transition-colors",
+                  "hover:bg-accent/40 hover:text-accent-foreground active:opacity-90 dark:border-white/10 dark:hover:bg-white/[0.06]",
                 )}
                 target="_blank"
                 rel="noreferrer"

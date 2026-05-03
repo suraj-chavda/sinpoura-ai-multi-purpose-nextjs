@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { auth } from "@/auth";
 import { Providers } from "@/components/providers/Providers";
@@ -19,6 +19,13 @@ const geistMono = Geist_Mono({
 
 const DESCRIPTION =
   "Open-source multi-purpose AI chat: Next.js App Router, MongoDB, Auth.js, Zustand, and xoin-js—a structured multi-LLM toolkit for OpenAI, Anthropic, and more. Ships with a public demo deployment for testers.";
+
+/** Enables `env(safe-area-inset-*)` for notched phones and home-indicator spacing in PWAs. */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),

@@ -34,7 +34,7 @@ export default function LoginPage() {
   }
 
   const fieldClass =
-    "rounded-xl border border-input/70 bg-background/65 px-3 py-2.5 text-sm text-foreground outline-none backdrop-blur-sm transition-[box-shadow,border-color,ring-color] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/35 dark:bg-background/35";
+    "box-border min-h-[44px] rounded-xl border border-input/70 bg-background/65 px-3 py-2.5 text-base text-foreground outline-none backdrop-blur-sm transition-[box-shadow,border-color,ring-color] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/35 sm:text-sm dark:bg-background/35";
 
   return (
     <GuestWorkspaceShell mainClassName="p-0" mainScroll={false} showBottomGlow={false}>
@@ -88,7 +88,7 @@ export default function LoginPage() {
             type="submit"
             disabled={pending}
             className={cn(
-              "mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground shadow-md shadow-primary/25 ring-1 ring-black/5 transition-opacity hover:opacity-95 disabled:pointer-events-none disabled:opacity-45 dark:ring-white/10",
+              "mt-1 flex min-h-[44px] w-full touch-manipulation items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-medium text-primary-foreground shadow-md shadow-primary/25 ring-1 ring-black/5 transition-opacity hover:opacity-95 active:opacity-90 disabled:pointer-events-none disabled:opacity-45 dark:ring-white/10",
             )}
           >
             {pending ? (

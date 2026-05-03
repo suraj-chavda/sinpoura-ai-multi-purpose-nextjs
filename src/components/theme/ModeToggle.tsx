@@ -20,7 +20,7 @@ export function ModeToggle({ className }: { className?: string }) {
   if (!mounted) {
     return (
       <div
-        className={cn("h-9 w-[6.75rem] animate-pulse rounded-lg bg-muted/80 ring-1 ring-border/60", className)}
+        className={cn("h-11 w-[7.75rem] animate-pulse rounded-lg bg-muted/80 ring-1 ring-border/60 sm:h-9 sm:w-[6.75rem]", className)}
         aria-hidden
       />
     );
@@ -47,7 +47,7 @@ export function ModeToggle({ className }: { className?: string }) {
             title={label}
             aria-pressed={isOn}
             className={cn(
-              "flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors",
+              "flex min-h-11 min-w-11 items-center justify-center rounded-md text-muted-foreground transition-colors sm:size-8 sm:min-h-0 sm:min-w-0",
               isOn && "bg-background text-foreground shadow-sm ring-1 ring-border/80",
               !isOn && "hover:text-foreground",
             )}
