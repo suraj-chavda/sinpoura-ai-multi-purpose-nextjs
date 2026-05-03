@@ -3,27 +3,43 @@
 import Image from "next/image";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { ModeToggle } from "@/components/theme/ModeToggle";
 import { APP_NAME } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
-export function Header() {
+type Props = {
+  className?: string;
+};
+
+export function Header({ className }: Props) {
   const { data } = useSession();
   const homeHref = data?.user ? "/chat" : "/";
+
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-zinc-200/80 bg-white/90 px-4 backdrop-blur dark:border-zinc-800/80 dark:bg-zinc-950/90">
+    <header
+      className={cn(
+        "sticky top-0 z-40 flex min-h-14 shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border bg-background/85 px-4 py-2 backdrop-blur-md supports-backdrop-filter:bg-background/70 sm:flex-nowrap sm:py-0",
+        className,
+      )}
+    >
       <Link
         href={homeHref}
-        className="flex items-center gap-2 text-sm tracking-tight text-zinc-900 dark:text-zinc-100"
+        className="flex shrink-0 items-center gap-2.5 text-sm font-medium tracking-tight text-foreground transition-opacity hover:opacity-90"
       >
-        <Image src="/logo.svg" alt="" width={28} height={28} priority className="shrink-0" />
-        <span>{APP_NAME}</span>
+        <Image src="/logo.svg" alt="" width={28} height={28} priority className="size-7 shrink-0" />
+        <span className="max-w-[10rem] truncate sm:max-w-none">{APP_NAME}</span>
       </Link>
-      <nav className="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-400">
+
+      <nav className="flex shrink-0 items-center gap-2 sm:gap-3">
+        <ModeToggle />
         {data?.user ? (
           <>
-            <span className="hidden max-w-[10rem] truncate sm:inline">{data.user.email}</span>
+            <span className="hidden max-w-[14rem] truncate text-sm text-muted-foreground lg:inline">
+              {data.user.email}
+            </span>
             <button
               type="button"
-              className="rounded-lg border border-zinc-200 px-3 py-1.5 text-zinc-800 transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-900"
+              className="rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
               onClick={() => signOut({ callbackUrl: "/" })}
             >
               Sign out
@@ -31,12 +47,15 @@ export function Header() {
           </>
         ) : (
           <>
-            <Link href="/login" className="hover:text-zinc-900 dark:hover:text-zinc-100">
+            <Link
+              href="/login"
+              className="rounded-lg px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
               Sign in
             </Link>
             <Link
               href="/register"
-              className="rounded-lg border border-zinc-200 px-3 py-1.5 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-900"
+              className="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
             >
               Register
             </Link>

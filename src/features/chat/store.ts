@@ -8,7 +8,11 @@ type ChatState = {
   isListLoading: boolean;
   isMessagesLoading: boolean;
   isSending: boolean;
+  /** Shown while POST /api/chat is in flight (optimistic UX). */
+  pendingOutbound: { userContent: string; startedAt: string } | null;
   error: string | null;
+  /** Set when POST /api/chat fails with a typed code (e.g. BYOK gate). */
+  chatErrorCode: string | null;
 };
 
 type ChatActions = {
@@ -20,7 +24,9 @@ type ChatActions = {
   setListLoading: (v: boolean) => void;
   setMessagesLoading: (v: boolean) => void;
   setSending: (v: boolean) => void;
+  setPendingOutbound: (v: ChatState["pendingOutbound"]) => void;
   setError: (msg: string | null) => void;
+  setChatErrorCode: (code: string | null) => void;
   resetChat: () => void;
 };
 
@@ -31,7 +37,9 @@ const initial: ChatState = {
   isListLoading: false,
   isMessagesLoading: false,
   isSending: false,
+  pendingOutbound: null,
   error: null,
+  chatErrorCode: null,
 };
 
 export const useChatStore = create<ChatState & ChatActions>((set) => ({
@@ -48,6 +56,8 @@ export const useChatStore = create<ChatState & ChatActions>((set) => ({
   setListLoading: (isListLoading) => set({ isListLoading }),
   setMessagesLoading: (isMessagesLoading) => set({ isMessagesLoading }),
   setSending: (isSending) => set({ isSending }),
+  setPendingOutbound: (pendingOutbound) => set({ pendingOutbound }),
   setError: (error) => set({ error }),
+  setChatErrorCode: (chatErrorCode) => set({ chatErrorCode }),
   resetChat: () => set(initial),
 }));

@@ -1,26 +1,526 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Light: cool violet accent, soft sidebar tint */
+:root {
+  color-scheme: light;
+  --background: oklch(0.992 0.004 277);
+  --foreground: oklch(0.17 0.02 277);
+  --card: oklch(1 0.003 277);
+  --card-foreground: oklch(0.17 0.02 277);
+  --popover: oklch(1 0.003 277);
+  --popover-foreground: oklch(0.17 0.02 277);
+  --primary: oklch(0.44 0.21 277);
+  --primary-foreground: oklch(0.99 0.01 277);
+  --secondary: oklch(0.96 0.012 277);
+  --secondary-foreground: oklch(0.22 0.03 277);
+  --muted: oklch(0.965 0.01 277);
+  --muted-foreground: oklch(0.48 0.03 277);
+  --accent: oklch(0.955 0.025 277);
+  --accent-foreground: oklch(0.22 0.04 277);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.91 0.015 277);
+  --input: oklch(0.91 0.015 277);
+  --ring: oklch(0.55 0.18 277);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0.012 277);
+  --sidebar-foreground: oklch(0.19 0.025 277);
+  --sidebar-primary: oklch(0.48 0.22 277);
+  --sidebar-primary-foreground: oklch(0.99 0.01 277);
+  --sidebar-accent: oklch(0.955 0.03 277);
+  --sidebar-accent-foreground: oklch(0.22 0.035 277);
+  --sidebar-border: oklch(0.9 0.02 277);
+  --sidebar-ring: oklch(0.55 0.18 277);
+  --scrollbar-thumb: oklch(0.52 0.11 277 / 0.42);
+  --scrollbar-thumb-hover: oklch(0.44 0.17 277 / 0.62);
+}
+
+/* Dark: deeper base, luminous violet primaries */
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.13 0.02 277);
+  --foreground: oklch(0.97 0.01 277);
+  --card: oklch(0.17 0.025 277);
+  --card-foreground: oklch(0.97 0.01 277);
+  --popover: oklch(0.17 0.025 277);
+  --popover-foreground: oklch(0.97 0.01 277);
+  --primary: oklch(0.72 0.17 277);
+  --primary-foreground: oklch(0.14 0.03 277);
+  --secondary: oklch(0.24 0.03 277);
+  --secondary-foreground: oklch(0.96 0.01 277);
+  --muted: oklch(0.22 0.03 277);
+  --muted-foreground: oklch(0.72 0.03 277);
+  --accent: oklch(0.24 0.05 277);
+  --accent-foreground: oklch(0.97 0.02 277);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 11%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.62 0.16 277);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.16 0.03 277);
+  --sidebar-foreground: oklch(0.96 0.015 277);
+  --sidebar-primary: oklch(0.62 0.2 277);
+  --sidebar-primary-foreground: oklch(0.99 0.01 277);
+  --sidebar-accent: oklch(0.24 0.045 277);
+  --sidebar-accent-foreground: oklch(0.97 0.02 277);
+  --sidebar-border: oklch(1 0 0 / 11%);
+  --sidebar-ring: oklch(0.62 0.16 277);
+  --scrollbar-thumb: oklch(0.62 0.13 277 / 0.38);
+  --scrollbar-thumb-hover: oklch(0.74 0.14 277 / 0.56);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+
+  /* Match UI convention: emphasis uses medium weight, not browser-heavy bold */
+  :where(strong, b) {
+    font-weight: 500;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    @apply font-sans;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* WebKit / Chromium — minimal gutter, pill thumb */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  background-color: var(--scrollbar-thumb);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Composer textarea: exclude from global scrollbar styling (thumb beside send looks broken on mobile). */
+textarea.chat-composer-textarea {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+textarea.chat-composer-textarea::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Page backdrop: aurora + subtle dot texture */
+.app-shell-gradient {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse 120% 85% at 50% -38%, oklch(0.82 0.1 277 / 0.38), transparent 56%),
+    radial-gradient(ellipse 70% 55% at 100% 0%, oklch(0.88 0.06 220 / 0.22), transparent 52%),
+    radial-gradient(oklch(0 0 0 / 0.038) 1px, transparent 1px);
+  background-size: auto, auto, 22px 22px;
+}
+
+.dark .app-shell-gradient {
+  background-image:
+    radial-gradient(ellipse 120% 85% at 50% -42%, oklch(0.38 0.12 277 / 0.45), transparent 58%),
+    radial-gradient(ellipse 70% 55% at 100% 0%, oklch(0.34 0.08 220 / 0.28), transparent 52%),
+    radial-gradient(oklch(1 0 0 / 0.055) 1px, transparent 1px);
+}
+
+/* Chat transcript canvas — ultra-light grain */
+.chat-main-texture {
+  background-image: radial-gradient(oklch(0 0 0 / 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .chat-main-texture {
+  background-image: radial-gradient(oklch(1 0 0 / 0.05) 1px, transparent 1px);
+}
+
+@media (max-width: 767.98px) {
+  .chat-main-texture-mobile-only {
+    background-image: radial-gradient(oklch(0 0 0 / 0.045) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .dark .chat-main-texture-mobile-only {
+    background-image: radial-gradient(oklch(1 0 0 / 0.05) 1px, transparent 1px);
+  }
+}
+
+/* Chat composer shell — matches the textarea wrapper */
+@layer components {
+  .chat-composer-surface {
+    @apply rounded-2xl border border-input/70 bg-card/80 shadow-md shadow-black/[0.04] ring-1 ring-border/55 backdrop-blur-md transition-[box-shadow,border-color,ring-color] dark:bg-card/45 dark:shadow-black/25 dark:ring-white/[0.06];
+  }
+
+  /*
+   * Quick-prompt tiles — same edge tokens as .chat-composer-surface (single hairline + ring).
+   * Decorative motion lives in .chat-starter-card::before only (no second inset “border”).
+   */
+  .chat-starter-tile {
+    @apply rounded-2xl border border-input/70 bg-card/80 shadow-md shadow-black/[0.04] ring-1 ring-border/55 backdrop-blur-md transition-[box-shadow,border-color,ring-color,background-color] dark:bg-card/45 dark:shadow-black/25 dark:ring-white/[0.06];
+  }
+}
+
+@keyframes chat-starter-scan {
+  0% {
+    transform: translateY(-130%);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.55;
+  }
+  82% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(380%);
+    opacity: 0;
+  }
+}
+
+/* Quick-prompt tiles: subtle vertical sweep (motion-safe in markup) */
+.chat-starter-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-starter-card::before {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  top: -60%;
+  height: 55%;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    oklch(0.52 0.17 277 / 0.06) 35%,
+    oklch(0.52 0.18 277 / 0.16) 50%,
+    oklch(0.52 0.17 277 / 0.06) 65%,
+    transparent 100%
+  );
+  animation: chat-starter-scan var(--chat-starter-scan-duration, 3.4s) ease-in-out infinite;
+  animation-delay: var(--chat-starter-scan-delay, 0ms);
+}
+
+.dark .chat-starter-card::before {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    oklch(0.68 0.16 277 / 0.07) 35%,
+    oklch(0.74 0.15 277 / 0.2) 50%,
+    oklch(0.68 0.16 277 / 0.07) 65%,
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-starter-card::before {
+    animation: none;
+    opacity: 0.35;
+  }
+}
+
+/* Soft violet wash under the composer — width matches input column (max-w-3xl + outer px in ChatScreen) */
+.chat-panel-bottom-glow {
+  pointer-events: none;
+  position: relative;
+  z-index: 0;
+  height: min(6rem, 22vmin);
+  overflow: hidden;
+}
+
+.chat-panel-bottom-glow-fill {
+  position: absolute;
+  inset: -8% -6% 0;
+  background:
+    radial-gradient(ellipse 110% 88% at 50% 115%, oklch(0.52 0.19 277 / 0.17) 0%, transparent 52%),
+    radial-gradient(ellipse 92% 62% at 50% 100%, oklch(0.55 0.17 277 / 0.07) 0%, transparent 54%),
+    linear-gradient(to top, oklch(0.48 0.15 277 / 0.045) 0%, transparent 38%);
+  opacity: 0.42;
+}
+
+.dark .chat-panel-bottom-glow-fill {
+  background:
+    radial-gradient(ellipse 110% 88% at 50% 115%, oklch(0.62 0.2 277 / 0.2) 0%, transparent 52%),
+    radial-gradient(ellipse 92% 62% at 50% 100%, oklch(0.58 0.18 277 / 0.09) 0%, transparent 54%),
+    linear-gradient(to top, oklch(0.42 0.14 285 / 0.065) 0%, transparent 40%);
+  opacity: 0.38;
+}
+
+.chat-panel-bottom-glow-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    oklch(0.52 0.17 277 / 0.22),
+    oklch(0.55 0.18 277 / 0.34),
+    oklch(0.52 0.17 277 / 0.22),
+    transparent
+  );
+  opacity: 0.45;
+}
+
+.dark .chat-panel-bottom-glow-line {
+  background: linear-gradient(
+    to right,
+    transparent,
+    oklch(0.72 0.15 277 / 0.12),
+    oklch(0.78 0.14 277 / 0.26),
+    oklch(0.72 0.15 277 / 0.12),
+    transparent
+  );
+  opacity: 0.5;
+}
+
+@keyframes chat-bottom-glow-breathe {
+  0%,
+  100% {
+    opacity: 0.32;
+  }
+  50% {
+    opacity: 0.42;
+  }
+}
+
+@keyframes chat-bottom-glow-breathe-dark {
+  0%,
+  100% {
+    opacity: 0.28;
+  }
+  50% {
+    opacity: 0.38;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chat-panel-bottom-glow-fill {
+    animation: chat-bottom-glow-breathe 9s ease-in-out infinite;
+  }
+
+  .dark .chat-panel-bottom-glow-fill {
+    animation: chat-bottom-glow-breathe-dark 9s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-panel-bottom-glow-fill {
+    animation: none;
+    opacity: 0.34;
+  }
+
+  .dark .chat-panel-bottom-glow-fill {
+    opacity: 0.32;
+  }
+}
+
+/* Chat row marks — Sinpoura logo + user initials */
+@keyframes chat-user-avatar-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.82) rotate(-8deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes chat-assistant-logo-mark-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.92;
+    filter: brightness(1.07);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chat-user-avatar-mark-animate {
+    animation: chat-user-avatar-enter 480ms cubic-bezier(0.34, 1.45, 0.64, 1) both;
+  }
+
+  .chat-assistant-logo-mark--pulse {
+    animation: chat-assistant-logo-mark-pulse 5.5s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-user-avatar-mark-animate {
+    animation: none;
+  }
+
+  .chat-assistant-logo-mark--pulse {
+    animation: none;
+  }
+}
+
+/* Main chat framed column — primary inset glow + grid (aligned with md rounded panel) */
+.chat-panel-frame {
+  position: relative;
+  isolation: isolate;
+}
+
+@media (min-width: 768px) {
+  /*
+   * Perspective-ish grid: offset “floor” layer + crisp top layer; radial mask keeps the middle clean.
+   */
+  .chat-panel-frame::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 0;
+    --chat-grid-face-v: oklch(0.42 0.13 277 / 0.078);
+    --chat-grid-face-h: oklch(0.46 0.14 277 / 0.068);
+    --chat-grid-floor-v: oklch(0.34 0.14 277 / 0.095);
+    --chat-grid-floor-h: oklch(0.34 0.14 277 / 0.082);
+    background-image:
+      linear-gradient(to right, var(--chat-grid-floor-v) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--chat-grid-floor-h) 1px, transparent 1px),
+      linear-gradient(to right, var(--chat-grid-face-v) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--chat-grid-face-h) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-position:
+      2px 3px,
+      2px 3px,
+      0 0,
+      0 0;
+    background-repeat: repeat;
+    mask-image: radial-gradient(
+      ellipse 90% 84% at 50% 46%,
+      transparent 0%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.22) 52%,
+      rgba(0, 0, 0, 0.68) 66%,
+      #000 100%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 90% 84% at 50% 46%,
+      transparent 0%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.22) 52%,
+      rgba(0, 0, 0, 0.68) 66%,
+      #000 100%
+    );
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+  }
+
+  .dark .chat-panel-frame::before {
+    --chat-grid-face-v: oklch(0.74 0.13 277 / 0.088);
+    --chat-grid-face-h: oklch(0.7 0.12 277 / 0.076);
+    --chat-grid-floor-v: oklch(0.22 0.06 277 / 0.42);
+    --chat-grid-floor-h: oklch(0.22 0.06 277 / 0.36);
+  }
+
+  .chat-panel-frame::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 0;
+    box-shadow:
+      inset 0 1px 0 0 oklch(0.52 0.17 277 / 0.14),
+      inset 0 -1px 0 0 oklch(0.52 0.17 277 / 0.1),
+      inset 1px 0 0 0 oklch(0.52 0.17 277 / 0.11),
+      inset -1px 0 0 0 oklch(0.52 0.17 277 / 0.11),
+      inset 0 0 64px oklch(0.48 0.18 277 / 0.05);
+  }
+
+  .dark .chat-panel-frame::after {
+    box-shadow:
+      inset 0 1px 0 0 oklch(0.68 0.16 277 / 0.18),
+      inset 0 -1px 0 0 oklch(0.58 0.14 277 / 0.12),
+      inset 1px 0 0 0 oklch(0.62 0.15 277 / 0.14),
+      inset -1px 0 0 0 oklch(0.62 0.15 277 / 0.14),
+      inset 0 0 88px oklch(0.5 0.18 277 / 0.08);
+  }
 }

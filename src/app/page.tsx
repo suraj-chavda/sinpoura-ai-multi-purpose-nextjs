@@ -1,25 +1,26 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { APP_NAME } from "@/lib/constants";
 import { Header } from "@/components/layout/Header";
+import { APP_NAME } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
 export default async function HomePage() {
   const session = await auth();
   if (session?.user) redirect("/chat");
 
   return (
-    <div className="flex min-h-full flex-col bg-zinc-100 dark:bg-zinc-950">
+    <div className={cn("flex min-h-dvh flex-col bg-background app-shell-gradient")}>
       <Header />
-      <main className="mx-auto flex max-w-2xl flex-1 flex-col justify-center gap-8 px-4 py-16">
-        <div className="space-y-3">
-          <p className="text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-500">Portfolio template</p>
-          <h1 className="text-3xl tracking-tight text-zinc-900 dark:text-zinc-100">{APP_NAME}</h1>
-          <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+      <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-10 px-4 py-16 md:py-24">
+        <div className="space-y-4">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Portfolio template</p>
+          <h1 className="font-heading text-3xl font-medium tracking-tight text-foreground md:text-4xl">{APP_NAME}</h1>
+          <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
             Multi-purpose AI chat with MongoDB persistence, Zustand UI state, and{" "}
             <a
               href="https://github.com/kanha95/xoin-js"
-              className="text-zinc-800 underline dark:text-zinc-200"
+              className="font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary"
               target="_blank"
               rel="noreferrer"
             >
@@ -31,13 +32,13 @@ export default async function HomePage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/register"
-            className="rounded-xl bg-zinc-900 px-5 py-2.5 text-sm text-zinc-50 transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
           >
             Get started
           </Link>
           <Link
             href="/login"
-            className="rounded-xl border border-zinc-300 px-5 py-2.5 text-sm text-zinc-800 transition hover:bg-white dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-900"
+            className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
           >
             Sign in
           </Link>

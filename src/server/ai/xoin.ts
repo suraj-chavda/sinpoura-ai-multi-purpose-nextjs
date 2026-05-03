@@ -1,14 +1,25 @@
-import { createOpenAIProvider, createXoin, type Xoin } from "@xoin/xoin-js";
+import {
+  createAnthropicProvider,
+  createOpenAIProvider,
+  createXoin,
+  type Xoin,
+} from "@xoin/xoin-js";
+import type { LlmProviderId } from "@/lib/llm-provider";
 
-let xoinClient: Xoin | null = null;
-
-export function getXoin(): Xoin {
-  if (xoinClient) return xoinClient;
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    throw new Error("OPENAI_API_KEY is not set");
+/** Fresh client per request (BYOK / per-request keys are never pooled). */
+export function createXoinForChat(provider: LlmProviderId, apiKey: string): Xoin {
+  if (provider === "anthropic") {
+    return createXoin({
+      defaultProvider: "anthropic",
+      providers: {
+        anthropic: createAnthropicProvider({
+          apiKey,
+          defaultModel: process.env.ANTHROPIC_MODEL ?? "claude-3-5-haiku-20241022",
+        }),
+      },
+    });
   }
-  xoinClient = createXoin({
+  return createXoin({
     defaultProvider: "openai",
     providers: {
       openai: createOpenAIProvider({
@@ -17,5 +28,4 @@ export function getXoin(): Xoin {
       }),
     },
   });
-  return xoinClient;
 }

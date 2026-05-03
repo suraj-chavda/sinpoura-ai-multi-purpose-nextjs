@@ -5,11 +5,18 @@ import { auth } from "@/auth";
 import { connectMongo } from "@/server/db/mongo";
 import { ConversationModel, MessageModel } from "@/server/db/models";
 import { getChatSystemPrompt } from "@/server/ai/prompts";
-import { getXoin } from "@/server/ai/xoin";
+import { createXoinForChat } from "@/server/ai/xoin";
+import { resolveChatLlm } from "@/server/ai/resolve-chat-llm";
 
 const bodySchema = z.object({
   conversationId: z.string().nullable().optional(),
   text: z.string().trim().min(1).max(16000),
+  llm: z
+    .object({
+      provider: z.enum(["openai", "anthropic"]),
+      apiKey: z.string().trim().min(1).max(2048).optional(),
+    })
+    .optional(),
 });
 
 function titleFromUserText(text: string) {
@@ -36,6 +43,21 @@ export async function POST(req: Request) {
   const { text } = parsed.data;
   const rawConvId = parsed.data.conversationId ?? null;
   await connectMongo();
+
+  const resolved = resolveChatLlm({
+    provider: parsed.data.llm?.provider,
+    apiKey: parsed.data.llm?.apiKey,
+  });
+  if (!resolved) {
+    return NextResponse.json(
+      {
+        error:
+          "No API key available. Set OPENAI_API_KEY or ANTHROPIC_API_KEY on the server, or add your key in Model settings (stored in this browser only and sent over HTTPS with chat requests—not saved on the server).",
+        code: "MISSING_LLM_KEY",
+      },
+      { status: 503 },
+    );
+  }
 
   if (rawConvId && !isValidObjectId(rawConvId)) {
     return NextResponse.json({ error: "Invalid conversation" }, { status: 400 });
@@ -88,9 +110,9 @@ export async function POST(req: Request) {
 
   let assistantText: string;
   try {
-    const xoin = getXoin();
+    const xoin = createXoinForChat(resolved.provider, resolved.apiKey);
     const result = await xoin.generate({
-      provider: "openai",
+      provider: resolved.provider,
       system: getChatSystemPrompt(),
       messages,
       temperature: 0.4,

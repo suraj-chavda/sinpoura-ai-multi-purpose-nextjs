@@ -5,6 +5,8 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     passwordHash: { type: String, required: true },
     name: { type: String, trim: true, default: "" },
+    /** AES-GCM blob for BYOK OpenAI key when `OPENAI_API_KEY` env is unset */
+    openaiKeyEnc: { type: String, select: false },
   },
   { timestamps: true },
 );

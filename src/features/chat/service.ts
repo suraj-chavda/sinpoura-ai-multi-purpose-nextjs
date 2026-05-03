@@ -1,3 +1,4 @@
+import { buildChatLlmPayload } from "@/lib/browser-llm-config";
 import { API } from "@/lib/constants";
 import { parseJson } from "@/lib/fetcher";
 import type { ChatMessageDTO, ConversationDTO } from "./types";
@@ -43,11 +44,36 @@ export type ChatResponse = {
   assistantMessage: ChatMessageDTO;
 };
 
+export class ChatApiError extends Error {
+  readonly status: number;
+  readonly code?: string;
+
+  constructor(message: string, status: number, code?: string) {
+    super(message);
+    this.name = "ChatApiError";
+    this.status = status;
+    this.code = code;
+  }
+}
+
 export async function sendChatMessage(body: ChatRequest): Promise<ChatResponse> {
+  const llm = buildChatLlmPayload();
   const res = await fetch(API.chat, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ ...body, ...(llm ? { llm } : {}) }),
   });
-  return parseJson<ChatResponse>(res);
+  if (!res.ok) {
+    let message = res.statusText;
+    let code: string | undefined;
+    try {
+      const err = (await res.json()) as { error?: string; code?: string };
+      if (err?.error) message = err.error;
+      if (typeof err?.code === "string") code = err.code;
+    } catch {
+      /* ignore */
+    }
+    throw new ChatApiError(message, res.status, code);
+  }
+  return res.json() as Promise<ChatResponse>;
 }
