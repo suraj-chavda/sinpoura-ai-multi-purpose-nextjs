@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { Header } from "@/components/layout/Header";
-import { APP_NAME } from "@/lib/constants";
+import { APP_NAME, DEMO_APP_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export default async function HomePage() {
@@ -14,7 +14,17 @@ export default async function HomePage() {
       <Header />
       <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-10 px-4 py-16 md:py-24">
         <div className="space-y-4">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Portfolio template</p>
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+            Multi-purpose AI chat ·{" "}
+            <a
+              href={DEMO_APP_URL}
+              className="font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Live demo for testers
+            </a>
+          </p>
           <h1 className="font-heading text-3xl font-medium tracking-tight text-foreground md:text-4xl">{APP_NAME}</h1>
           <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
             Multi-purpose AI chat with MongoDB persistence, Zustand UI state, and{" "}
@@ -26,7 +36,8 @@ export default async function HomePage() {
             >
               xoin-js
             </a>{" "}
-            on the server. Register, add your keys, and ship.
+            on the server — one abstraction (<strong>xoin</strong>) for OpenAI and Anthropic. Register, add your keys,
+            and ship.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">

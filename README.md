@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  Use it as a portfolio piece, an internal tool starter, or a reference layout for feature-based App Router apps with real persistence and a responsive chat UI.
+  Built for <strong>live demos and day-to-day use</strong> — this repo is <strong>not</strong> positioned as a portfolio-only showcase. Use it as an internal tool starter or reference layout for App Router apps with real persistence and a responsive chat UI.
 </p>
 
 <p align="center">
@@ -51,6 +51,27 @@
   Tailwind CSS v4
 </p>
 
+## Live demo (testing)
+
+**Demo URL:** [https://suraj-chavda-sinpoura-ai-multi-purpose-nextjs-a8b3r1cw7.vercel.app/](https://suraj-chavda-sinpoura-ai-multi-purpose-nextjs-a8b3r1cw7.vercel.app/)
+
+The app also references this hostname as `DEMO_APP_URL` in `src/lib/constants.ts` — update **both** places if the deployment URL changes.
+
+Use this deployment to **try registration, chat, and BYOK** without cloning the repo. Treat it as a shared test environment (data and uptime are best-effort).
+
+### Documenting deploy URLs in Git
+
+- Keep **one canonical link** in the README (here) and update it when your production hostname or Vercel alias changes.
+- **Preview URLs** can churn; prefer a **production deployment or custom domain** when sharing outside quick tests.
+- Label the environment (**testing / demo**) so visitors know accounts may reset and behavior depends on server env vars.
+- **Never commit** secrets; linking the URL is fine — keys stay in the host dashboard only.
+
+### What is xoin?
+
+**xoin** is the small LLM client abstraction implemented by **[xoin-js](https://github.com/kanha95/xoin-js)** (`@xoin/xoin-js` on npm). Instead of wiring separate SDK shapes per vendor, you call one **`generate`**-style API while **xoin-js** routes to **OpenAI**, **Anthropic**, or other providers. Sinpoura constructs a fresh xoin client per chat request on the server — see [Why xoin-js sits at the center](#why-xoin-js-sits-at-the-center).
+
+---
+
 ## Preview
 
 Desktop workspace: sidebar with conversations, framed chat panel, transcript with avatars, composer, and quick prompts on an empty thread.
@@ -79,24 +100,25 @@ Desktop workspace: sidebar with conversations, framed chat panel, transcript wit
 
 ## Table of contents
 
-1. [Preview](#preview)
-2. [Why Sinpoura exists](#why-sinpoura-exists)
-3. [Why xoin-js sits at the center](#why-xoin-js-sits-at-the-center)
-4. [Who this is for](#who-this-is-for)
-5. [Features](#features)
-6. [Responsive design and UX](#responsive-design-and-ux)
-7. [Tech stack](#tech-stack)
-8. [Repository layout](#repository-layout)
-9. [Getting started](#getting-started)
-10. [Environment variables](#environment-variables)
-11. [How API keys work (server vs browser)](#how-api-keys-work-server-vs-browser)
-12. [Scripts](#scripts)
-13. [SEO, sharing, and discoverability](#seo-sharing-and-discoverability)
-14. [Deployment](#deployment)
-15. [Security notes](#security-notes)
-16. [Customizing the product](#customizing-the-product)
-17. [Acknowledgments](#acknowledgments)
-18. [License](#license)
+1. [Live demo (testing)](#live-demo-testing)
+2. [Preview](#preview)
+3. [Why Sinpoura exists](#why-sinpoura-exists)
+4. [Why xoin-js sits at the center](#why-xoin-js-sits-at-the-center)
+5. [Who this is for](#who-this-is-for)
+6. [Features](#features)
+7. [Responsive design and UX](#responsive-design-and-ux)
+8. [Tech stack](#tech-stack)
+9. [Repository layout](#repository-layout)
+10. [Getting started](#getting-started)
+11. [Environment variables](#environment-variables)
+12. [How API keys work (server vs browser)](#how-api-keys-work-server-vs-browser)
+13. [Scripts](#scripts)
+14. [SEO, sharing, and discoverability](#seo-sharing-and-discoverability)
+15. [Deployment](#deployment)
+16. [Security notes](#security-notes)
+17. [Customizing the product](#customizing-the-product)
+18. [Acknowledgments](#acknowledgments)
+19. [License](#license)
 
 ---
 
@@ -118,13 +140,13 @@ That matters for three practical reasons:
 2. **Easy to extend** — xoin-js is built around pluggable providers; adding another backend later mostly touches server-side factory code.
 3. **Honest boundaries** — keys either come from env (host-owned) or from the user’s browser (BYOK), and xoin runs where those keys are resolved, not leaked into random client bundles.
 
-If you’re evaluating Sinpoura as a portfolio project, call out xoin-js explicitly: it shows you know how to integrate a focused LLM abstraction instead of hard-coding a single vendor everywhere.
+If you’re explaining the architecture, call out **xoin-js** explicitly: it keeps vendor-specific SDK details behind one server-side abstraction instead of scattering provider logic across routes.
 
 ---
 
 ## Who this is for
 
-- **Portfolio / GitHub profile** — “Here’s a full-stack AI chat with auth, persistence, and responsive UI.”
+- **Demo testers & evaluators** — Try the [live demo](#live-demo-testing) or run locally with your own keys and database.
 - **Internal tools** — Swap branding, tighten RBAC, add org models; the conversation CRUD and API route are a sane spine.
 - **Learning App Router + Zustand** — Feature slice pattern with hooks, store, and UI separated.
 - **Teams comparing BYOK vs hosted keys** — The app supports env keys for guests on your deployment and browser-stored keys for power users (details below).
@@ -268,7 +290,7 @@ There are two supported stories — you can use either or both:
 
 2. **Bring-your-own-key (BYOK)** — If neither env key is set, users open **Model & API keys** and save a provider + key. That payload lives in **`localStorage`** in the browser under a versioned key. When they send a chat message, the client attaches `llm: { provider, apiKey }` to **`POST /api/chat`** over HTTPS. The server **does not persist** those credentials; it resolves keys per request in `resolveChatLlm` and builds a fresh xoin client for that call.
 
-That design keeps Mongo free of raw API secrets while still letting portfolios demonstrate real multi-provider LLM calls through **xoin-js**.
+That design keeps Mongo free of raw API secrets while still allowing **real multi-provider LLM calls** through **xoin-js** when users bring their own keys.
 
 ---
 
@@ -309,6 +331,8 @@ Typical path (e.g. Vercel):
 3. Run `npm run build` in CI or rely on the host build step.
 
 Match production hostname to `AUTH_URL` / `SITE_URL` so redirects and social preview URLs stay correct.
+
+The **testing demo** linked [above](#live-demo-testing) is one such deployment; refresh the README URL if that hostname changes.
 
 ---
 
